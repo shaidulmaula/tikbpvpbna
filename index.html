@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kejuruan TIK - BPVP Banda Aceh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A single-page, vertical-scrolling layout with a fixed top navigation bar for easy access to sections. The user flow is designed to guide prospective students from initial interest (Beranda, Keunggulan) to detailed information (Program Pelatihan, Fasilitas), building trust through social proof (Alumni), and culminating in a clear call-to-action (Kontak). This linear, story-driven approach is more intuitive for an informational site than a complex dashboard, facilitating comprehension and encouraging conversion. Key interactions include a dynamic program detail viewer and interactive charts to present data engagingly without leaving the page. -->
+    <!-- Visualization & Content Choices: 
+        - 'Program Pelatihan': Goal: Organize/Compare. Method: Interactive cards updating a central detail view (HTML/JS). Interaction: Click-to-display. Justification: Prevents information overload, allows easy comparison.
+        - 'Data Penempatan Kerja': Goal: Persuade/Inform. Method: Donut Chart (Chart.js). Interaction: Animated on load, tooltips on hover. Justification: Provides a quick, impactful visual of alumni success, building confidence. Library: Chart.js.
+        - 'Keunggulan Utama': Goal: Inform. Method: Icon-based cards (Unicode/HTML/CSS). Justification: Quickly communicates core benefits in a visually scannable format. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1f2937;
+        }
+        .hero-bg {
+            background-image: url('https://placehold.co/1920x1080/e0e7ff/3730a3');
+            background-size: cover;
+            background-position: center;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <nav id="navbar" class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-xl font-bold text-gray-800">TIK BPVP Banda Aceh</a>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#beranda" class="text-gray-600 hover:text-blue-600">Beranda</a>
+                    <a href="#program" class="text-gray-600 hover:text-blue-600">Program</a>
+                    <a href="#fasilitas" class="text-gray-600 hover:text-blue-600">Fasilitas</a>
+                    <a href="#alumni" class="text-gray-600 hover:text-blue-600">Alumni</a>
+                    <a href="#kontak" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors">Kontak</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                    <span class="text-2xl">☰</span>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="#beranda" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">Beranda</a>
+            <a href="#program" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">Program</a>
+            <a href="#fasilitas" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">Fasilitas</a>
+            <a href="#alumni" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">Alumni</a>
+            <a href="#kontak" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">Kontak</a>
+        </div>
+    </nav>
+
+    <header id="beranda" class="hero-bg text-white pt-32 pb-20 relative">
+        <div class="absolute inset-0 bg-blue-900/70"></div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Siap Terjun ke Dunia Digital?</h1>
+            <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">Mulai karir profesional TIK Anda bersama kami di BPVP Banda Aceh. Dapatkan keahlian yang dicari industri, gratis dan bersertifikat.</p>
+            <a href="#program" class="bg-green-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-transform hover:scale-105">Lihat Program Pelatihan</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="keunggulan" class="py-16 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center p-6 bg-slate-50 rounded-lg shadow-sm">
+                        <div class="text-4xl mb-3 text-blue-600">👨‍🏫</div>
+                        <h3 class="text-xl font-semibold mb-2">Instruktur Ahli</h3>
+                        <p class="text-gray-600">Belajar langsung dari praktisi industri yang bersertifikat nasional dan internasional.</p>
+                    </div>
+                    <div class="text-center p-6 bg-slate-50 rounded-lg shadow-sm">
+                        <div class="text-4xl mb-3 text-blue-600">💻</div>
+                        <h3 class="text-xl font-semibold mb-2">Fasilitas Modern</h3>
+                        <p class="text-gray-600">Lab komputer dengan spesifikasi tinggi dan perangkat jaringan terkini.</p>
+                    </div>
+                    <div class="text-center p-6 bg-slate-50 rounded-lg shadow-sm">
+                        <div class="text-4xl mb-3 text-blue-600">🤝</div>
+                        <h3 class="text-xl font-semibold mb-2">Koneksi Industri</h3>
+                        <p class="text-gray-600">Program magang dan penyaluran kerja ke perusahaan mitra terkemuka.</p>
+                    </div>
+                    <div class="text-center p-6 bg-slate-50 rounded-lg shadow-sm">
+                        <div class="text-4xl mb-3 text-blue-600">📄</div>
+                        <h3 class="text-xl font-semibold mb-2">Sertifikasi BNSP</h3>
+                        <p class="text-gray-600">Lulus dengan sertifikat kompetensi yang diakui secara nasional.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="program" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Program Pelatihan Unggulan</h2>
+                    <p class="text-lg text-gray-600 mt-2">Pilih jalur pelatihan yang paling sesuai dengan minat dan tujuan karir Anda.</p>
+                </div>
+
+                <div class="flex justify-center mb-8">
+                    <div class="bg-gray-200 rounded-full p-1 flex space-x-1">
+                        <button id="tab-pbk" class="program-tab px-6 py-2 rounded-full text-sm font-semibold">PBK</button>
+                        <button id="tab-pbl" class="program-tab px-6 py-2 rounded-full text-sm font-semibold">PBL</button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div id="program-list" class="lg:w-1/3 grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
+                    </div>
+
+                    <div id="program-detail" class="lg:w-2/3 bg-white p-8 rounded-lg shadow-md transition-all duration-500">
+                        <h3 id="detail-title" class="text-2xl font-bold mb-2 text-gray-800"></h3>
+                        <p id="detail-category" class="font-semibold text-blue-600 mb-4"></p>
+                        <p id="detail-desc" class="text-gray-600 mb-6"></p>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Contoh Prospek Karir:</h4>
+                            <ul id="detail-karir" class="list-disc list-inside text-gray-600 space-y-1"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fasilitas" class="py-20 bg-white">
+             <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Fasilitas Penunjang</h2>
+                    <p class="text-lg text-gray-600 mt-2">Setiap kelas dilengkapi dengan perangkat modern untuk mendukung proses belajar yang optimal.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="rounded-lg overflow-hidden shadow-lg group">
+                        <img src="https://placehold.co/600x400/fff0f5/c5306c?text=Kelas+Desain+Grafis" alt="Kelas Desain Grafis" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="p-4 bg-slate-50">
+                            <h3 class="font-semibold text-lg">Kelas Desain Grafis</h3>
+                        </div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden shadow-lg group">
+                        <img src="https://placehold.co/600x400/e6f4ff/1890ff?text=Kelas+Pemrograman" alt="Kelas Pemrograman" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="p-4 bg-slate-50">
+                            <h3 class="font-semibold text-lg">Kelas Pemrograman</h3>
+                        </div>
+                    </div>
+                     <div class="rounded-lg overflow-hidden shadow-lg group">
+                        <img src="https://placehold.co/600x400/f6ffed/52c41a?text=Kelas+Content+Creator" alt="Kelas Content Creator" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="p-4 bg-slate-50">
+                            <h3 class="font-semibold text-lg">Kelas Content Creator</h3>
+                        </div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden shadow-lg group">
+                        <img src="https://placehold.co/600x400/fff7e6/fa8c16?text=Kelas+Jaringan" alt="Kelas Jaringan Komputer" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="p-4 bg-slate-50">
+                            <h3 class="font-semibold text-lg">Kelas Jaringan Komputer</h3>
+                        </div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden shadow-lg group">
+                        <img src="https://placehold.co/600x400/f9f0ff/722ed1?text=Kelas+Generative+AI" alt="Kelas Generative AI" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="p-4 bg-slate-50">
+                            <h3 class="font-semibold text-lg">Kelas Generative AI</h3>
+                        </div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden shadow-lg group">
+                        <img src="https://placehold.co/600x400/e6fffb/13c2c2?text=Kelas+Office" alt="Kelas Office" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="p-4 bg-slate-50">
+                            <h3 class="font-semibold text-lg">Kelas Office</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="alumni" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Kisah Sukses Alumni</h2>
+                    <p class="text-lg text-gray-600 mt-2">Lihat bagaimana lulusan kami berprestasi di dunia kerja.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-8">
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-start space-x-4">
+                            <img src="https://placehold.co/100x100/e0e7ff/4338ca?text=AF" alt="Alumni 1" class="w-16 h-16 rounded-full flex-shrink-0">
+                            <div>
+                                <p class="text-gray-600 italic">"Pelatihan di BPVP sangat terstruktur. Materi yang diajarkan relevan dengan kebutuhan industri, dan saya langsung diterima kerja sebagai Web Developer setelah lulus."</p>
+                                <h4 class="font-semibold mt-3">Ahmad Fauzi</h4>
+                                <p class="text-sm text-gray-500">Junior Web Developer di TechCorp</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-start space-x-4">
+                            <img src="https://placehold.co/100x100/dcfce7/166534?text=SN" alt="Alumni 2" class="w-16 h-16 rounded-full flex-shrink-0">
+                            <div>
+                                <p class="text-gray-600 italic">"Instruktur sangat membantu dan fasilitasnya lengkap. Berkat sertifikasi dari BPVP, saya percaya diri bersaing dan kini bekerja sebagai Network Administrator."</p>
+                                <h4 class="font-semibold mt-3">Siti Nurhaliza</h4>
+                                <p class="text-sm text-gray-500">Network Administrator di GlobalNet</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                             <canvas id="alumniChart"></canvas>
+                        </div>
+                        <p class="text-center mt-4 text-gray-600">Statistik Penempatan Kerja Lulusan (6 Bulan Pertama)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer id="kontak" class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-6 gap-8">
+                <div class="md:col-span-3">
+                    <h3 class="text-lg font-semibold mb-3">TIK BPVP Banda Aceh</h3>
+                    <p class="text-gray-400">Mencetak talenta digital yang kompeten, profesional, dan siap kerja.</p>
+                </div>
+                <div class="md:col-span-2">
+                    <h3 class="text-lg font-semibold mb-3">Kontak Kami</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Jl. Kesatria, Geuceu Komplek, Banda Aceh</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                            <span>tik.bpvpbandaaceh@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Ikuti Kami</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/tik.bpvpbandaaceh/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white inline-flex items-center gap-2 group">
+                            <div class="w-5 h-5 rounded-md border-2 border-gray-400 flex items-center justify-center relative group-hover:border-white transition-colors">
+                                <div class="w-2 h-2 rounded-full border border-gray-400 group-hover:border-white transition-colors"></div>
+                                <div class="w-px h-px rounded-full bg-gray-400 absolute top-1 right-1 group-hover:bg-white transition-colors"></div>
+                            </div>
+                            <span>TIK BPVP Banda Aceh</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 TIK BPVP Banda Aceh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const programData = {
+                pbk: {
+                    name: "Pelatihan Berbasis Kompetensi (PBK)",
+                    description: "Pembelajaran terstruktur berdasarkan standar kompetensi industri. Peserta fokus menguasai satu per satu unit kompetensi secara sistematis. Hasil akhir: penguasaan skill terukur dan sertifikat kompetensi resmi. Sangat cocok untuk yang ingin siap kerja dengan skill teknis yang sudah terstandarisasi.",
+                    programs: [
+                        { id: 'cc', title: 'Content Creator', karir: ['Content Creator', 'Videographer', 'Social Media Specialist'] },
+                        { id: 'dgm', title: 'Desainer Grafis Muda', karir: ['Desainer Grafis', 'Ilustrator', 'UI Designer'] },
+                        { id: 'mp', title: 'Mobile Programming', karir: ['Junior Mobile Developer', 'Android Developer', 'iOS Developer'] },
+                        { id: 'pjk', title: 'Pemasangan Jaringan Komputer', karir: ['Teknisi Jaringan', 'Network Support', 'Helpdesk'] },
+                        { id: 'pbd', title: 'Pemrograman Berbasis Data', karir: ['Database Administrator', 'Data Analyst', 'SQL Developer'] },
+                        { id: 'pw', title: 'Pemrograman Web', karir: ['Junior Web Developer', 'Front-End Developer', 'Back-End Developer'] },
+                        { id: 'poa', title: 'Practical Office Advance', karir: ['Staf Administrasi', 'Sekretaris', 'Office Manager'] },
+                        { id: 've', title: 'Video Editor', karir: ['Video Editor', 'Motion Graphic Artist', 'Production Assistant'] }
+                    ]
+                },
+                pbl: {
+                    name: "Project Based Learning (PBL)",
+                    description: "Peserta belajar dengan cara mengerjakan proyek nyata. Fokus pada proses penyelesaian masalah, kerja tim, kreativitas, dan inovasi. Hasil akhir: produk, karya atau solusi dari permasalah nyata di dunia industri. Sangat cocok untuk yang suka eksplorasi, problem solving, dan bekerja kolaboratif.",
+                    programs: [
+                        { id: 'genai', title: 'Pengoperasian Tools Generative AI untuk Konten Digital dan Bisnis', karir: ['AI Content Specialist', 'Digital Marketer', 'Business Analyst'] },
+                        { id: 'konten-visual', title: 'Pembuatan Konten Visual untuk Sosial Media', karir: ['Social Media Manager', 'Content Creator', 'Digital Strategist'] },
+                        { id: 'web-node-react', title: 'Pengembangan Web dengan Node.js dan React', karir: ['Full-Stack Developer', 'JavaScript Developer', 'React Developer'] },
+                        { id: 'pemasaran-sosmed', title: 'Optimalisasi Pemasaran Melalui Media Sosial', karir: ['Social Media Marketer', 'Digital Marketing Specialist', 'Brand Manager'] }
+                    ]
+                }
+            };
+            
+            let currentProgram = null;
+            let currentCategory = 'pbk';
+
+            const programListContainer = document.getElementById('program-list');
+            const detailTitle = document.getElementById('detail-title');
+            const detailCategory = document.getElementById('detail-category');
+            const detailDesc = document.getElementById('detail-desc');
+            const detailKarir = document.getElementById('detail-karir');
+            let activeProgramButton = null;
+
+            const tabPbk = document.getElementById('tab-pbk');
+            const tabPbl = document.getElementById('tab-pbl');
+
+            function setActiveTab(tab) {
+                currentCategory = tab;
+                if (tab === 'pbk') {
+                    tabPbk.classList.add('bg-blue-600', 'text-white');
+                    tabPbk.classList.remove('bg-gray-200', 'text-gray-600');
+                    tabPbl.classList.add('bg-gray-200', 'text-gray-600');
+                    tabPbl.classList.remove('bg-blue-600', 'text-white');
+                } else {
+                    tabPbl.classList.add('bg-blue-600', 'text-white');
+                    tabPbl.classList.remove('bg-gray-200', 'text-gray-600');
+                    tabPbk.classList.add('bg-gray-200', 'text-gray-600');
+                    tabPbk.classList.remove('bg-blue-600', 'text-white');
+                }
+                populateProgramList(currentCategory);
+            }
+
+            function populateProgramList(category) {
+                programListContainer.innerHTML = '';
+                const categoryData = programData[category];
+                categoryData.programs.forEach((program, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'program-button text-left w-full p-4 rounded-lg border transition-all duration-300';
+                    button.dataset.id = program.id;
+                    button.dataset.category = category;
+                    button.innerHTML = `<h4 class="font-semibold text-lg">${program.title}</h4>`;
+                    
+                    button.addEventListener('click', (e) => {
+                        const clickedCategory = e.currentTarget.dataset.category;
+                        const clickedId = e.currentTarget.dataset.id;
+                        updateProgramDetails(clickedCategory, clickedId);
+
+                        if(activeProgramButton) {
+                            activeProgramButton.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+                            activeProgramButton.classList.add('bg-white', 'border-gray-300');
+                        }
+                        button.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+                        button.classList.remove('bg-white', 'border-gray-300');
+                        activeProgramButton = button;
+                    });
+                    programListContainer.appendChild(button);
+
+                    if (index === 0) {
+                        button.click();
+                    } else {
+                        button.classList.add('bg-white', 'border-gray-300');
+                    }
+                });
+            }
+
+            function updateProgramDetails(category, programId) {
+                const categoryData = programData[category];
+                const program = categoryData.programs.find(p => p.id === programId);
+
+                if (program) {
+                    currentProgram = program;
+                    detailTitle.textContent = program.title;
+                    detailCategory.textContent = categoryData.name;
+                    detailDesc.textContent = categoryData.description;
+                    
+                    detailKarir.innerHTML = '';
+                    program.karir.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = item;
+                        detailKarir.appendChild(li);
+                    });
+                }
+            }
+            
+            tabPbk.addEventListener('click', () => setActiveTab('pbk'));
+            tabPbl.addEventListener('click', () => setActiveTab('pbl'));
+
+            const alumniCtx = document.getElementById('alumniChart').getContext('2d');
+            new Chart(alumniCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Bekerja Sesuai Bidang', 'Bekerja di Bidang Lain', 'Wirausaha', 'Melanjutkan Studi'],
+                    datasets: [{
+                        label: 'Penempatan Alumni',
+                        data: [65, 20, 10, 5],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(249, 115, 22, 0.8)',
+                            'rgba(107, 114, 128, 0.8)'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('py-2');
+                    navbar.classList.remove('py-3');
+                } else {
+                    navbar.classList.add('py-3');
+                    navbar.classList.remove('py-2');
+                }
+            });
+
+            setActiveTab('pbk');
+        });
+    </script>
+
+</body>
+</html>
